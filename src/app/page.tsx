@@ -1,6 +1,8 @@
 "use client"
 
 import './globals.css';
+import Header from './components/ui/Header';
+import Link from 'next/link';
 import { useSearchParams } from "next/navigation";
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
@@ -38,24 +40,18 @@ export default function Home() {
 
     return (
       <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-      {/* Header */}
-      <header className="w-full bg-blue py-6 shadow-md mb-10">
-        <h1 className="text-center text-3xl font-bold text-white">
-          Music Playlist Manager
-        </h1>
-      </header>
-
-      {/* Search + Button container */}
+      <Header />
       <div className="w-full max-w-md space-y-6">
         <input
           type="text"
           placeholder="Search a song..."
           className="w-full px-5 py-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue focus:border-transparent placeholder-gray-400 text-lg"
         />
-        <button
-          className="w-full px-5 py-4 rounded-full bg-blue text-white text-lg font-semibold shadow-md hover:bg-orange transition duration-200">
-          Create a playlist
-        </button>
+        <Link href="/playlist" className="block">
+          <button className="w-full px-5 py-4 rounded-full bg-blue text-white text-lg font-semibold shadow-md hover:bg-orange transition duration-200">
+          Create a playlist</button>
+        </Link>
+        
       </div>
     </main>
 
