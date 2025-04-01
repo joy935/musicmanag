@@ -1,8 +1,9 @@
 "use client"
 
+import './globals.css';
 import { useSearchParams } from "next/navigation";
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB8DBfymvE60C3ITw4oLtMMI7QRax9ngDM",
@@ -16,28 +17,47 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // write data
-function writeUserData(userId: string, username: string, email: string) {
-  const db = getDatabase();
-  const reference = ref(db, 'users/' + userId);
-
-  set(reference, {
-    username: username,
-    email: email,
-  });
-}
-writeUserData("123", "Clara", "clara@mail.com")
+// try {
+//   const docRef = await addDoc(collection(db, "users"), {
+//     email: "maryann@email.com",
+//     username: "maryann",
+//   });
+//   console.log("Document written with ID: ", docRef.id);
+// } catch (e) {
+//   console.error("Error adding document: ", e);
+// }
 
 // get data 
 
-export default function Login() {
+export default function Home() {
   const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl') || '/';
 
     return (
-      <main className="flex items-center justify-center md:h-screen py-6">
-        <h1>Home</h1>
-      </main>
+      <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+      {/* Header */}
+      <header className="w-full bg-blue py-6 shadow-md mb-10">
+        <h1 className="text-center text-3xl font-bold text-white">
+          Music Playlist Manager
+        </h1>
+      </header>
+
+      {/* Search + Button container */}
+      <div className="w-full max-w-md space-y-6">
+        <input
+          type="text"
+          placeholder="Search a song..."
+          className="w-full px-5 py-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue focus:border-transparent placeholder-gray-400 text-lg"
+        />
+        <button
+          className="w-full px-5 py-4 rounded-full bg-blue text-white text-lg font-semibold shadow-md hover:bg-orange transition duration-200">
+          Create a playlist
+        </button>
+      </div>
+    </main>
+
     );
 }
