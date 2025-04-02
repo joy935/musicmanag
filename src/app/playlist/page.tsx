@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from "../lib/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function Playlist () {
 
@@ -13,12 +14,14 @@ export default function Playlist () {
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         setSuccess("");
+
         try {
+            // create playlist
             const docRef = await addDoc(collection(db, "playlists"), {
                 playlist: playlist,
                 description: description,
@@ -28,7 +31,12 @@ export default function Playlist () {
             setPlaylist("");
             setDescription("");
         } catch (error) {
-            setError("Error creating playlist: " + error.message);
+            if (error instanceof Error) {
+                setError("Error creating playlist: " + error.message);
+            }
+            else {
+                setError("Error creating playlist: " + String(error));
+        }
         } finally {
             setLoading(false);
         }
