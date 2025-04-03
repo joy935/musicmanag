@@ -1,35 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from "../lib/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { User } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
-export default function Playlist () {
+export default function Playlist() {
 
     const [playlist, setPlaylist] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
 
+    const router = useRouter();
+
+    /* check if user is logged in
+    and set the user state to the user id if user is logged in, 
+    otherwise set the user state to null
+    and redirect to the login page */
+    useEffect(() => {
+        // check if user is logged in
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+            // user is signed in, set user state
+            setUser(user);
+            } else {
+            // user is signed out, set user state to null
+            setUser(null);
+            setError("You must be logged in to create a playlist.");
+            setLoading(false);
+            router.push("/login");
+            }
+        });
+            return () => unsubscribe();
+    }
+    , []);
+
+    /* handleSubmit function to create a playlist
+    with the playlist name, description and user id
+    and then redirect to the home page */
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         setSuccess("");
 
+        if (!user) {
+            setError("You must be logged in to create a playlist.");
+            setLoading(false);
+            return;
+        }
+
         try {
             // create playlist
             const docRef = await addDoc(collection(db, "playlists"), {
                 playlist: playlist,
                 description: description,
-                user: user,
+                userId: user?.uid,
             });
             setSuccess("Playlist created successfully!");
             setPlaylist("");
             setDescription("");
+            router.push(`/playlists/${docRef.id}`);
         } catch (error) {
             if (error instanceof Error) {
                 setError("Error creating playlist: " + error.message);
