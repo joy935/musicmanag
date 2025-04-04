@@ -2,6 +2,7 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+// firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB8DBfymvE60C3ITw4oLtMMI7QRax9ngDM",
   authDomain: "musicmanager-55e66.firebaseapp.com",
@@ -13,9 +14,8 @@ const firebaseConfig = {
   measurementId: "G-E4HXRD5XKX"
 };
 
-//const app = initializeApp(firebaseConfig);
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
-const auth = getAuth(app);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp(); // initialize Firebase only if there are no apps initialized
+const db = getFirestore(app); // initialize Firestore
+const auth = getAuth(app); // initialize Firebase Authentication
 
 export { db, collection, addDoc, auth };

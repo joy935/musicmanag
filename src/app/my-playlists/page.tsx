@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "../components/ui/Header";
 import { useState, useEffect } from "react";
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from "../lib/firebase";
@@ -8,6 +7,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
+// interface Playlist to define and use 
+// the structure of the playlist object
 interface Playlist {
     id: string;
     playlist: string;
@@ -16,7 +17,9 @@ interface Playlist {
 }
 
 export default function MyPlaylists() {
-
+    /* set up states for playlists, loading, error, and user
+    to manage the playlists and user information
+    and display the playlists to the user */
     const [allPlaylists, setAllPlaylists] = useState<Playlist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -33,9 +36,8 @@ export default function MyPlaylists() {
             } else {
             // user is signed out, set user state to null
             setUser(null);
-            setError("You must be logged in to create a playlist.");
+            setError("You must be logged in to view your playlists.");
             setLoading(false);
-            router.push("/login");
             }
         });
             return () => unsubscribe();
@@ -73,8 +75,10 @@ export default function MyPlaylists() {
                 {loading && <p>Loading...</p>}
                 {error && <p className="text-red-500">{error}</p>}
                 
+                {/* Display a message if no playlists are found */}
                 {allPlaylists.length === 0 && !loading && <p>No playlists found.</p>}
 
+                {/* Display the playlists */}
                 {!loading && allPlaylists.map((playlist) => (
                     <div key={playlist.id} className="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
                         <h2 className="text-xl font-semibold">{playlist.playlist}</h2>

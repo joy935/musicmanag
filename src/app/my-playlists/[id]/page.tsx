@@ -1,18 +1,19 @@
 "use client";
 
-import Header from "../../components/ui/Header";
 import { db } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs, deleteDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+/* interface Playlist and Song
+to define and use the structure of the playlist 
+and song objects */
 interface Playlist {
     id: string;
     playlist: string;
     description?: string;
 }
-
 interface Song {
     id: string;
     title: string;
@@ -22,29 +23,35 @@ interface Song {
 }
 
 export default function MyPlaylist() {
-
+    // set up states for playlist info, songs, loading, and error
     const [playlistInfo, setPlaylistInfo] = useState<Playlist | null>(null);
     const [songs, setSongs] = useState<Song[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     
+    // get the playlist id from the URL
     const params = useParams();
     const playlistId = params.id as string;
     
     const router = useRouter();
     
     useEffect(() => {
+        /* fetch the playlist and songs from firebase
+        and set the playlist info and songs state */
         const fetchPlaylistAndSongs = async () => {
             try {
                 // fetch the playlist
                 const playlist = doc(db, "playlists", playlistId);
                 const playlistDoc = await getDoc(playlist);
-        
+
+                // display error if playlist not found
                 if (!playlistDoc.exists()) {
                 setError("Playlist not found.");
                 return;
                 }
-
+                
+                // set the playlist info state
+                // use Omit to exclude the id property from the playlist data
                 const playlistData = playlistDoc.data() as Omit<Playlist, "id">;
                 setPlaylistInfo({ id: playlistDoc.id, ...playlistData });
         
@@ -55,7 +62,8 @@ export default function MyPlaylist() {
                 id: doc.id,
                 ...doc.data() as Omit<Song, "id">,
                 }));
-        
+
+                // set the songs state
                 setSongs(songsData);
             } catch (err) {
                 setError("Failed to fetch playlist and songs.");
@@ -64,7 +72,7 @@ export default function MyPlaylist() {
                 setLoading(false);
             }
             };
-        
+
             fetchPlaylistAndSongs();
         }, [playlistId]);
     

@@ -8,7 +8,7 @@ import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function Playlist() {
-
+    // set up states for playlist name, description, error, success, loading, and user
     const [playlist, setPlaylist] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
@@ -33,7 +33,6 @@ export default function Playlist() {
             setUser(null);
             setError("You must be logged in to create a playlist.");
             setLoading(false);
-            router.push("/login");
             }
         });
             return () => unsubscribe();
@@ -49,6 +48,7 @@ export default function Playlist() {
         setError("");
         setSuccess("");
 
+        // check if user is logged in and if not, display an error message
         if (!user) {
             setError("You must be logged in to create a playlist.");
             setLoading(false);
@@ -65,7 +65,7 @@ export default function Playlist() {
             setSuccess("Playlist created successfully!");
             setPlaylist("");
             setDescription("");
-            router.push(`/playlists/${docRef.id}`);
+            router.push(`/playlists/${docRef.id}`); // redirect to the playlist page
         } catch (error) {
             if (error instanceof Error) {
                 setError("Error creating playlist: " + error.message);

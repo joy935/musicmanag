@@ -4,10 +4,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { db, collection, addDoc } from "@/app/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../components/ui/Header";
 
 export default function Signup() {
-
+    // set up states for username, email, password, error, success, and loading
+    // to manage the user information and display messages to the user
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,9 +15,13 @@ export default function Signup() {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // get the auth instance and router instance
     const auth = getAuth();
     const router = useRouter();
 
+    /* handleSubmit function to create a user
+    with the email and password
+    and then redirect to the login page */
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
@@ -45,7 +49,6 @@ export default function Signup() {
             .finally(() => {
                 setLoading(false);
             });
-            
     };
 
     return (

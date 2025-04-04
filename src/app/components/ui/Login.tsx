@@ -7,23 +7,31 @@ import { auth } from "@/app/lib/firebase";
 import Link from "next/link";
 
 export default function Login() {
+    // set up state variables for email, password, error, success and loading
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // useSearchParams is a hook that returns the current URL's search parameters
     const searchParams = useSearchParams();
+    /* get the callbackUrl from the search params
+    if it is not present, set it to "/"
+    this is used to redirect the user after logging in */
     const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+    // set up the router to redirect the user after logging in
     const router = useRouter();
 
+    /* handleSubmit function to log in the user
+    with the email and password
+    and then redirect to the callbackUrl */
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         setSuccess("");
-
         signInWithEmailAndPassword(auth, email, password)
         .then(() => {
             router.push(callbackUrl);

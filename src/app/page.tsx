@@ -1,7 +1,6 @@
 "use client"
 
 import './globals.css';
-import Header from './components/ui/Header';
 import Link from 'next/link';
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
