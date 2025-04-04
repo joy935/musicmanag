@@ -4,7 +4,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { db, collection, addDoc } from "@/app/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { User } from "firebase/auth";
 
 export default function Signup() {
 
@@ -14,7 +13,6 @@ export default function Signup() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
 
     const auth = getAuth();
     const router = useRouter();
@@ -27,10 +25,7 @@ export default function Signup() {
 
         // create user with email and password
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // signed up
-                const user = userCredential.user;
-                setUser(user);
+            .then(() => {
                 // redirect to home page
                 router.push("/login");
                 // add user to Firestore
@@ -43,9 +38,8 @@ export default function Signup() {
             .then(() => {
                 setSuccess("User created successfully");
             })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+            .catch (() => { 
+                setError("Error creating user");
             })
             .finally(() => {
                 setLoading(false);

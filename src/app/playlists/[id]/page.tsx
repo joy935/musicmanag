@@ -6,11 +6,27 @@ import { useEffect, useState } from "react";
 import { getDocs, addDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 
+interface Song {
+    id: string;
+    title: string;
+    artist: string;
+    album: string;
+    releaseYear: string;
+}
+
+interface FileredSongs {
+    id: string;
+    title: string;
+    artist: string;
+    album: string;
+    releaseYear: string;
+}
+
 export default function AddToPlaylist() {
 
-    const [allSongs, setAllSongs] = useState<any[]>([]);
+    const [allSongs, setAllSongs] = useState<Song[]>([]);
     const [search, setSearch] = useState("");
-    const [filteredSongs, setFilteredSongs] = useState<any[]>([]);
+    const [filteredSongs, setFilteredSongs] = useState<FileredSongs[]>([]);
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -26,13 +42,12 @@ export default function AddToPlaylist() {
             const songsSnapshot = await getDocs(songsCollection);
             const songsData = songsSnapshot.docs.map((doc) => ({
             id: doc.id,
-            ...doc.data(),
+            ...doc.data() as Omit<Song, "id">,
             }));
             setAllSongs(songsData);
             setFilteredSongs(songsData);
-        } catch (err) {
+        } catch {
             setError("Failed to fetch songs.");
-            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -54,7 +69,7 @@ export default function AddToPlaylist() {
     };
 
     /* add a song to the playlist */
-    const addToPlaylist = async (song: any) => {
+    const addToPlaylist = async (song: Song) => {
 
         if (!playlistId) {
             setError("No playlist selected.");

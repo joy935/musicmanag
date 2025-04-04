@@ -3,29 +3,15 @@
 import './globals.css';
 import Header from './components/ui/Header';
 import Link from 'next/link';
-import { useSearchParams } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from "react";
-import { User } from "firebase/auth";
+import { useEffect } from "react";
 import { auth } from "@/app/lib/firebase";
 
 export default function Home() {
-  const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/';
-
-    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
       // check if user is logged in
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // user is signed in, set user state
-          setUser(user);
-        } else {
-          // user is signed out, set user state to null
-          setUser(null);
-        }
-      });
+      const unsubscribe = onAuthStateChanged(auth, () => {});
       return () => unsubscribe();
     }, []);
 

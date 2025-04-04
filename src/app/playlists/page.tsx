@@ -38,7 +38,7 @@ export default function Playlist() {
         });
             return () => unsubscribe();
     }
-    , []);
+    , [router]);
 
     /* handleSubmit function to create a playlist
     with the playlist name, description and user id

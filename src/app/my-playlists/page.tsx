@@ -8,9 +8,16 @@ import { onAuthStateChanged } from "firebase/auth";
 import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
+interface Playlist {
+    id: string;
+    playlist: string;
+    description?: string;
+    userId: string;
+}
+
 export default function MyPlaylists() {
 
-    const [allPlaylists, setAllPlaylists] = useState<any[]>([]);
+    const [allPlaylists, setAllPlaylists] = useState<Playlist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [user, setUser] = useState<User | null>(null);
@@ -33,7 +40,7 @@ export default function MyPlaylists() {
         });
             return () => unsubscribe();
     }
-    , []);
+    , [router]);
 
     /* fetch and display all the playlists from firebase */
     useEffect(() => {
@@ -41,21 +48,22 @@ export default function MyPlaylists() {
         try {
             const playlistsCollection = collection(db, "playlists");
             const playlistsSnapshot = await getDocs(playlistsCollection);
-            const playlistsData = playlistsSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            }));
+            const playlistsData = playlistsSnapshot.docs
+            .map((doc) => ({
+                id: doc.id,
+                ...doc.data() as Omit<Playlist, "id">,
+                }))
+            .filter((playlist) => playlist.userId === user?.uid); // filter playlists by userId
             setAllPlaylists(playlistsData);
-        } catch (err) {
+        } catch {
             setError("Failed to fetch playlists.");
-            console.error(err);
         } finally {
             setLoading(false);
         }
         };
     
         fetchPlaylists();
-    }, []);
+    }, [user?.uid]);
 
     return (
         <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
@@ -70,7 +78,7 @@ export default function MyPlaylists() {
 
                 {!loading && allPlaylists.map((playlist) => (
                     <div key={playlist.id} className="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
-                        <h2 className="text-xl font-semibold">{playlist.name}</h2>
+                        <h2 className="text-xl font-semibold">{playlist.playlist}</h2>
                         <p>{playlist.description}</p>
                         <button
                             className="mt-4 bg-blue text-white px-4 py-2 rounded-full hover:bg-brown transition duration-200"
