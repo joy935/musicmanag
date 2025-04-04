@@ -82,8 +82,7 @@ export default function MyPlaylist() {
     }; 
 
     return (
-        <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-            <Header />
+        <main className="min-h-screen bg-background flex flex-col items-center px-4">
             <div className="w-full max-w-md space-y-6">
 
                 {loading && <p>Loading...</p>}
@@ -92,8 +91,8 @@ export default function MyPlaylist() {
                 {/* Playlist Info */}
                 {playlistInfo && (
                 <div className="text-center">
-                <h2 className="text-xl font-bold">{playlistInfo.playlist}</h2>
-                <p className="text-sm text-gray-600">{playlistInfo.description}</p>
+                <h2 className="text-2xl font-semibold text-center">{playlistInfo.playlist}</h2>
+                <p className="text-xl text-gray-600">{playlistInfo.description}</p>
                 </div>
                 )}
 

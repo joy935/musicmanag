@@ -4,6 +4,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { db, collection, addDoc } from "@/app/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../components/ui/Header";
 
 export default function Signup() {
 
@@ -48,9 +49,9 @@ export default function Signup() {
     };
 
     return (
-        <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+        <main className="min-h-screen bg-background flex flex-col items-center px-4">
             <div className="w-full max-w-md space-y-6">
-                <form className="w-full max-w-sm space-y-6 p-6 bg-white rounded-xl shadow-lg"
+                <form className="w-full space-y-6 p-6"
                 onSubmit={handleSubmit}>
                     <h1 className="text-2xl font-bold text-center">Create Your Account</h1>
 
@@ -72,7 +73,7 @@ export default function Signup() {
                     <input type="hidden" name="redirectTo" />
 
                     <div className="flex justify-center">
-                        <button type="submit" className="w-full px-6 py-3 bg-orange text-white font-medium text-sm rounded-full hover:bg-blue transition duration-200" 
+                        <button type="submit" className="w-full px-6 py-3 border border-brown text-black font-medium text-sm rounded-full hover:bg-brown transition duration-200" 
                         disabled={loading}>
                         Sign up
                         </button>

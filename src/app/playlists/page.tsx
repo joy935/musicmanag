@@ -79,7 +79,7 @@ export default function Playlist() {
     };
 
     return (
-        <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+        <main className="min-h-screen bg-background flex flex-col items-center px-4">
             <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
                 <div className="w-full max-w-md space-y-6">
                     <h1 className="text-2xl font-semibold text-center">Create a Playlist</h1>

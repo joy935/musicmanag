@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Roboto } from "next/font/google";
 import "./globals.css";
+import Header from "./components/ui/Header";
 
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${notoSerif.variable} ${roboto.variable} antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>

@@ -66,10 +66,9 @@ export default function MyPlaylists() {
     }, [user?.uid]);
 
     return (
-        <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-            <Header />
+        <main className="min-h-screen bg-background flex flex-col items-center px-4">
             <div className="w-full max-w-md space-y-6">
-                <h1 className="text-3xl font-bold mb-4">My Playlists</h1>
+                <h1 className="text-2xl font-semibold text-center">My Playlists</h1>
 
                 {loading && <p>Loading...</p>}
                 {error && <p className="text-red-500">{error}</p>}

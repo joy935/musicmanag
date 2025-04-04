@@ -16,28 +16,12 @@ export default function Home() {
     }, []);
 
     return (
-      <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-      <Header />
+      <main className="min-h-screen bg-background flex flex-col items-center px-4">
       <div className="w-full max-w-md space-y-6">
-        <Link href="/my-playlists" className="block">
-          <button className="w-full px-5 py-4 rounded-full bg-orange text-black text-lg text-center justify-center font-semibold shadow-md hover:bg-brown transition duration-200">
-          My Playlists</button>
-        </Link>
         <Link href="/playlists" className="block">
           <button className="w-full px-5 py-4 rounded-full bg-blue text-white text-lg font-semibold shadow-md hover:bg-orange transition duration-200">
           Create a playlist</button>
         </Link>
-        <div className="flex gap-4">
-          <Link href="/signup" className="w-1/2">
-            <button className="w-full px-5 py-4 rounded-full border-2 border-brown text-black text-lg text-center justify-center font-semibold shadow-md hover:bg-brown transition duration-200">
-            Sign Up</button>
-          </Link>
-          <Link href="/login" className="w-1/2">
-            <button className="w-full px-5 py-4 rounded-full bg-brown text-white text-lg text-center justify-center font-semibold shadow-md hover:bg-orange transition duration-200">
-            Log In</button>
-          </Link>
-        </div>
-        
       </div>
     </main>
 

@@ -124,10 +124,9 @@ export default function AddToPlaylist() {
     }; 
 
     return (
-        <main className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-            <Header />
+        <main className="min-h-screen bg-background flex flex-col items-center px-4">
             <div className="w-full max-w-md space-y-6">
-                <h1>Add songs to your playlist!</h1>
+                <h1 className="text-2xl font-semibold text-center">Add songs to your playlist</h1>
                 <input
                 type="text"
                 placeholder="Search a song..."
