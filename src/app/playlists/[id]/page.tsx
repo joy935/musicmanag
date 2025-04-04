@@ -4,6 +4,7 @@ import { db, collection } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 import { getDocs, addDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 /* interface Song and FileredSongs
 to define and use the structure of the song object
@@ -36,6 +37,7 @@ export default function AddToPlaylist() {
     // useParams is a hook that returns the current URL's parameters
     const params = useParams();
     const playlistId = params.id as string;
+    const router = useRouter();
 
     /* fetch and display all the songs from firebase */
     useEffect(() => {
@@ -163,6 +165,10 @@ export default function AddToPlaylist() {
                     )}
                 </ul>
                 )}
+
+                {/* when the view playlist button is clicked, redirect to the playlist page */}
+                <button className="mt-4 border border-blue text-black px-4 py-2 rounded-full hover:bg-blue transition duration-200"
+                onClick={() => router.push(`/my-playlists/${playlistId}`)}>View Playlist</button>
 
             </div>
         </main>
