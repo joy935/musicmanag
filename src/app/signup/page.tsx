@@ -59,15 +59,15 @@ export default function Signup() {
                     <h1 className="text-2xl font-bold text-center">Create Your Account</h1>
 
                     <div className="space-y-4">
-                        <div className="border border-gray-300 rounded-full px-4 py-3">
+                        <div className="border border-gray-300 rounded-xl px-4 py-3">
                             <input className="w-full bg-transparent outline-none text-sm" id="username" type="text" name="username" placeholder="Username" required
                             value={username} onChange={(e) => setUsername(e.target.value)}/>
                         </div>
-                        <div className="border border-gray-300 rounded-full px-4 py-3">
+                        <div className="border border-gray-300 rounded-xl px-4 py-3">
                             <input className="w-full bg-transparent outline-none text-sm" id="email" type="email" name="email" placeholder="Email address" required
                             value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
-                        <div className="border border-gray-300 rounded-full px-4 py-3">
+                        <div className="border border-gray-300 rounded-xl px-4 py-3">
                             <input className="w-full bg-transparent outline-none text-sm" id="password" type="password" name="password" placeholder="Password" minLength={6} required 
                             value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>

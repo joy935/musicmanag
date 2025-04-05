@@ -99,12 +99,12 @@ export default function MyPlaylists() {
                     <div key={playlist.id} className="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
                         <h2 className="text-xl font-semibold">{playlist.playlist}</h2>
                         <p>{playlist.description}</p>
-                        <button className="mt-4 border border-blue text-black px-4 py-2 mr-2 rounded-full hover:bg-blue transition duration-200"
+                        <button className="mt-4 border border-blue text-black px-4 py-2 mr-2 rounded-xl hover:bg-blue transition duration-200"
                         onClick={() => handleDelete(playlist.id)}>
                             Delete Playlist
                         </button>
                         <button
-                            className="mt-4 bg-blue text-white px-4 py-2 rounded-full hover:bg-brown transition duration-200"
+                            className="mt-4 bg-blue text-white px-4 py-2 rounded-xl hover:bg-brown transition duration-200"
                             onClick={() => router.push(`/my-playlists/${playlist.id}`)}>
                             View Playlist
                         </button>

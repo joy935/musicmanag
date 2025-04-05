@@ -56,11 +56,11 @@ export default function Login() {
                         {loading && <p>Loading...</p>}
 
                         <div className="space-y-4">
-                            <div className="border border-gray-300 rounded-full px-4 py-3">
+                            <div className="border border-gray-300 rounded-xl px-4 py-3">
                                 <input className="w-full bg-transparent outline-none text-sm" id="email" type="email" name="email" placeholder="Email address" required
                                 value={email} onChange={(e) => setEmail(e.target.value)}/>
                             </div>
-                            <div className="border border-gray-300 rounded-full px-4 py-3">
+                            <div className="border border-gray-300 rounded-xl px-4 py-3">
                                 <input className="w-full bg-transparent outline-none text-sm" id="password" type="password" name="password" placeholder="Password" minLength={6} required
                                 value={password} onChange={(e) => setPassword(e.target.value)}/>
                             </div>
@@ -69,7 +69,7 @@ export default function Login() {
                         <input type="hidden" name="redirectTo" value={callbackUrl} />
 
                         <div className="flex justify-center">
-                            <button type="submit" className="w-full px-6 py-3 bg-brown text-white font-medium text-sm rounded-full hover:bg-orange transition duration-200">
+                            <button type="submit" className="w-full px-6 py-3 bg-brown text-white font-medium text-sm rounded-xl hover:bg-orange transition duration-200">
                             Log in</button>
                         </div>
 
@@ -78,7 +78,7 @@ export default function Login() {
                         <div className="text-center">
                             <p className="text-sm mb-3">Not a member yet?</p>
                             <Link href="/signup">
-                                <button type="button" className="w-full px-6 py-3 border border-brown text-black font-medium text-sm rounded-full hover:bg-brown transition duration-200">
+                                <button type="button" className="w-full px-6 py-3 border border-brown text-black font-medium text-sm rounded-xl hover:bg-brown transition duration-200">
                                 Sign up</button>
                             </Link>
                         </div>

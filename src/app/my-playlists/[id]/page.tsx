@@ -91,7 +91,7 @@ export default function MyPlaylist() {
 
     return (
         <main className="min-h-screen bg-background flex flex-col items-center px-4">
-            <div className="w-full max-w-md space-y-6">
+            <div className="mb-4 w-full max-w-md space-y-6">
 
                 {loading && <p>Loading...</p>}
                 {error && <p className="text-red-500">{error}</p>}
@@ -117,7 +117,7 @@ export default function MyPlaylist() {
                             <p className="text-sm text-gray-500">Album: {song.album}</p>
                             <p className="text-sm text-gray-400">Released: {song.releaseYear}</p>
                             {/* Remove a song from the playlist */}
-                            <button className="mt-2 bg-blue text-white px-4 py-2 rounded-full hover:bg-brown"
+                            <button className="mt-2 bg-blue text-white px-4 py-2 rounded-xl hover:bg-brown"
                             onClick={() => removeSong(song.id)}>
                                 Remove
                             </button>
@@ -128,7 +128,7 @@ export default function MyPlaylist() {
                 </div>
 
                 {/* Add Songs Button */}
-                <button className="mt-6 bg-orange text-white px-4 py-2 rounded-full hover:bg-brown"
+                <button className="mt-6 bg-orange text-white px-4 py-2 rounded-xl hover:bg-brown"
                 onClick={() => router.push(`/playlists/${playlistId}`)}>
                     Add Songs
                 </button>
