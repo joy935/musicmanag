@@ -118,7 +118,7 @@ export default function AddToPlaylist() {
             await addDoc(playlistCollection, songToAdd);
             setSuccess(true);
         }
-        catch (err) {
+        catch {
             setError("Failed to add song to playlist.");
         }
         finally {
@@ -131,21 +131,22 @@ export default function AddToPlaylist() {
 
     return (
         <main className="min-h-screen bg-background flex flex-col items-center px-4">
-            <div className="w-full max-w-md space-y-6">
+            <div className="w-full max-w-md space-y-6 mb-4">
                 <h1 className="text-2xl font-semibold text-center">Add songs to your playlist</h1>
                 <input
                 type="text"
                 placeholder="Search a song..."
-                className="w-full px-5 py-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue focus:border-transparent placeholder-gray-400 text-lg"
+                className="w-full px-5 py-4 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue focus:border-transparent placeholder-gray-400 text-lg"
                 value={search} 
                 onChange={handleSearch}/>
 
-                {loading}
+                {loading && <p>Loading songs...</p>}
                 {error && <p className="text-red-500">{error}</p>}
                 {success && <p className="text-green-500">Song added to playlist!</p>}
 
                 {/* display all the songs or the searched songs */}
-                {!loading && !error && (
+                {!loading && (
+                    
                 <ul className="space-y-4">
                     {filteredSongs.length > 0 ? (
                     filteredSongs.map((song) => (
@@ -154,7 +155,7 @@ export default function AddToPlaylist() {
                         <p className="text-sm text-gray-600">Artist: {song.artist}</p>
                         <p className="text-sm text-gray-600">Album: {song.album}</p>
                         <p className="text-sm text-gray-500">Released: {song.releaseYear}</p>
-                        <button className="mt-2 px-4 py-2 bg-blue text-white rounded-full hover:bg-orange transition duration-200"
+                        <button className="mt-2 px-4 py-2 bg-blue text-white rounded-xl hover:bg-orange transition duration-200"
                         onClick={() => addToPlaylist(song)}>
                             Add to Playlist
                         </button>
@@ -167,7 +168,7 @@ export default function AddToPlaylist() {
                 )}
 
                 {/* when the view playlist button is clicked, redirect to the playlist page */}
-                <button className="mt-4 border border-blue text-black px-4 py-2 rounded-full hover:bg-blue transition duration-200"
+                <button className="mt-4 border border-blue text-black px-4 py-2 pb-2 rounded-xl hover:bg-blue transition duration-200"
                 onClick={() => router.push(`/my-playlists/${playlistId}`)}>View Playlist</button>
 
             </div>
