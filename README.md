@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Music Playlist Manager 
 
-## Getting Started
+## Overview
+Music Playlist Manager is a simple web application that allows users to create and maange their music playlists. This is a first project using a cloud database, specifically Google Firebase. It explores Cloud Firestore, Firebase Authentication and basic CRUD operations to the database. 
 
-First, run the development server:
+### Purpose 
+This project serves as a learning activity to build a functional web application backed by a cloud dababase. By creating this Music Playlist Management web app, users can create an account and log in to be able to create and manage their own playlists. The playlist and song data are stored in Firebase. This application provides a foundation for building more advanced features in the future, such as a music player and the functionality of sharing playlists. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Features
+- User authentication (sign up, login and logout)
+- Create and delete playlists
+- Add and remove songs in the playlist
+- View playlists and their content
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Structure
+- Authentication process: sign up, login and log out
+- Playlist management: Create and delete playlist and manage songs 
+- Interfaces: Playlist, songs and filtered songs views
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[Software Demo Video](http://youtube.link.goes.here)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cloud Database
+This prohect uses Google Cloud Firestore which is a flexible and scalable NoSQL database to store and sync data in real time.
 
-## Learn More
+### Database Structure 
+The database consists of two collections: 
+- Playlists
+    - name: Name of the playlist
+    - description: Short description of the playlist
+    - userId: The unique ID of the user who created the playlist
+    - songs
+- Songs
+    - title: Song title
+    - artist: Name of the artist
+    - album: Album name
+    - releaseYear: Year the song was released
 
-To learn more about Next.js, take a look at the following resources:
+Additionally, Firebase Authentication stores the user credentials:
+- email: User's email adress
+- uid: Unique identifier for each authenticated user
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Tools
+- Programming language: Next.js
+- IDE: Visual Code
+- Version Control: Git and GitHub
+- Operating System: macOS
 
-## Deploy on Vercel
+### Libraries
+- Tailwind CSS: For styling the frontend
+- Firebase SDK: For autentication and database operations 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Useful Websites
+- [Cloud Firestore: Get started](https://firebase.google.com/docs/firestore/quickstart)
+- [Manage Data](https://firebase.google.com/docs/firestore/manage-data/add-data)
+- [Firebase Authentication](https://firebase.google.com/docs/auth)
+- [Password Authentication](https://firebase.google.com/docs/auth/web/password-auth)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Future Work
+- Enrich the song collection with an album image, music genre and an external link to listen to the song
+- Add the feature of sharing the playlist on social media platforms
+- Allow users to mark playlists as public or private so public playlists can be viewable by others
