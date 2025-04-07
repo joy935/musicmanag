@@ -1,8 +1,8 @@
 "use client";
 
 import { db } from "../../lib/firebase";
-import { useEffect, useState } from "react";
-import { collection, doc, getDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { use, useEffect, useState } from "react";
+import { collection, doc, getDoc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -26,7 +26,10 @@ export default function MyPlaylist() {
     // set up states for playlist info, songs, loading, and error
     const [playlistInfo, setPlaylistInfo] = useState<Playlist | null>(null);
     const [songs, setSongs] = useState<Song[]>([]);
+    const [editName, setEditName] = useState("");
+    const [editDescription, setEditDescription] = useState("");
     const [loading, setLoading] = useState(true);
+    const [success, setSuccess] = useState<string>("");;
     const [error, setError] = useState("");
     
     // get the playlist id from the URL
@@ -76,6 +79,41 @@ export default function MyPlaylist() {
             fetchPlaylistAndSongs();
         }, [playlistId]);
     
+    // set the edit name and description state when the playlist info changes
+    // this is to prefill the input fields with the current playlist name and description
+    useEffect(() => {
+        if (playlistInfo) {
+            setEditName(playlistInfo.playlist);
+            setEditDescription(playlistInfo.description || "");
+        }
+    }
+    , [playlistInfo]);
+
+    // update the playlist name and description
+    const updatePlaylist = async () => {
+        // check if the playlist name and description are empty
+        if (!playlistInfo) return;
+
+        try { 
+            const playlistRef = doc(db, "playlists", playlistId);
+            await updateDoc(playlistRef, {
+                playlist: editName,
+                description: editDescription,
+            });
+            setPlaylistInfo({ ...playlistInfo, playlist: editName, description: editDescription });
+            setSuccess("Playlist updated successfully.");
+            setTimeout(() => {
+                setSuccess("");
+            }
+            , 2000);
+            setError("");     
+        }
+        catch (err) {
+            setError("Failed to update playlist.");
+            setSuccess("");
+            console.error(err);
+        }
+    };
 
     // remove song from playlist
     const removeSong = async (songId: string) => {
@@ -95,12 +133,21 @@ export default function MyPlaylist() {
 
                 {loading && <p>Loading...</p>}
                 {error && <p className="text-red-500">{error}</p>}
+                {success && <p className="text-green-600">{success}</p>}
 
-                {/* Playlist Info */}
+                {/* Update Playlist Info */}
                 {playlistInfo && (
                 <div className="text-center">
-                <h2 className="text-2xl font-semibold text-center">{playlistInfo.playlist}</h2>
-                <p className="text-xl text-gray-600">{playlistInfo.description}</p>
+                    <input className="text-2xl font-semibold text-center"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)} placeholder="Playlist Name"></input>
+                    <textarea className="text-xl text-gray-600 block w-full mt-2 p-2 border rounded-lg"
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)} placeholder="Playlist Description"></textarea>
+                    <button className="mt-2 bg-blue text-white px-4 py-2 rounded-xl hover:bg-brown"
+                    onClick={updatePlaylist}>
+                        Update Playlist
+                    </button>
                 </div>
                 )}
 
