@@ -82,11 +82,13 @@ export default function AddToPlaylist() {
             return;
         }
 
-    const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
+    //const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
+    const newSongRef = doc(collection(db, "songs"));
+    const newSongId = newSongRef.id;
 
     try {
         // check if the song already exists in the playlist
-        const existingDoc = await getDoc(songRefInPlaylist);
+        const existingDoc = await getDoc(newSongRef);
         if (existingDoc.exists()) {
             setError("Song already exists in the playlist.");
             setTimeout(() => setError(""), 2000);
@@ -94,8 +96,8 @@ export default function AddToPlaylist() {
         }
 
         // add the song to the playlist with the same ID
-        await setDoc(songRefInPlaylist, {
-            id: song.id,
+        await setDoc(newSongRef, {
+            id: newSongId,
             title: song.title,
             artist: song.artist,
             album: song.album,
