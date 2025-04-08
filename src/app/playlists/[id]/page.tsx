@@ -95,6 +95,7 @@ export default function AddToPlaylist() {
 
         // add the song to the playlist with the same ID
         await setDoc(songRefInPlaylist, {
+            id: song.id,
             title: song.title,
             artist: song.artist,
             album: song.album,
