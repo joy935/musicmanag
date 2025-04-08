@@ -1,7 +1,7 @@
 "use client";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { db, collection, addDoc } from "@/app/lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -16,7 +16,6 @@ export default function Signup() {
     const [loading, setLoading] = useState(false);
 
     // get the auth instance and router instance
-    const auth = getAuth();
     const router = useRouter();
 
     /* handleSubmit function to create a user
@@ -31,20 +30,15 @@ export default function Signup() {
         // create user with email and password
         createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
-                // redirect to home page
+                // redirect to login page
                 router.push("/login");
-                // add user to Firestore
-                const userRef = collection(db, "users");
-                return addDoc(userRef, {
-                    username: username,
-                    email: email,
-                });
             })
             .then(() => {
                 setSuccess("User created successfully");
             })
-            .catch (() => { 
-                setError("Error creating user");
+            .catch ((err) => { 
+                console.error("Signup error:", err.code, err.message);
+                setError(err.message);
             })
             .finally(() => {
                 setLoading(false);
