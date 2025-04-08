@@ -53,8 +53,6 @@ export default function AddToPlaylist() {
                 id: doc.id,
                 };
             });
-            console.log("Fetched songs:", songsData);
-            console.log("SongIDs:", songsSnapshot.docs.map((doc) => doc.id));
             setAllSongs(songsData); // set all songs state
             setFilteredSongs(songsData); // set filtered songs state to all songs
         } catch {
@@ -90,11 +88,6 @@ export default function AddToPlaylist() {
 
         //const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
         const newSongRef = doc(db, "playlists", playlistId, "songs", song.id);
-        console.log("New song ref:", newSongRef);
-        console.log("Song ID:", song.id);
-        console.log("Playlist ID:", playlistId);
-        console.log("Song data:", song);
-
         try {
             // check if the song already exists in the playlist
             const existingDoc = await getDoc(newSongRef);
