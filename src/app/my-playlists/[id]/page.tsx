@@ -118,8 +118,7 @@ export default function MyPlaylist() {
     // remove song from playlist
     const removeSong = async (songId: string) => {
         try {
-            const songRef = doc(db, "playlists", playlistId, "songs", songId);
-            await deleteDoc(songRef);
+            await deleteDoc(doc(db, "playlists", playlistId, "songs", songId));
             setSongs(songs.filter((song) => song.id !== songId));
         } catch (err) {
             setError("Failed to remove song.");

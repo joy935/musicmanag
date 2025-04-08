@@ -2,7 +2,7 @@
 
 import { db } from "../../lib/firebase";
 import { useEffect, useState } from "react";
-import { getDocs, addDoc, collection } from "firebase/firestore";
+import { doc, getDocs, getDoc, setDoc, collection } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -76,58 +76,39 @@ export default function AddToPlaylist() {
 
     /* add a song to the playlist */
     const addToPlaylist = async (song: Song) => {
-        // check if the playlistId is present
-        // if not, display an error message
         if (!playlistId) {
             setError("No playlist selected.");
-            setTimeout(() => {
-                setError("");
-            }, 2000);
+            setTimeout(() => setError(""), 2000);
             return;
         }
 
-        const songToAdd = {
-        // create a new object with the song details
-            id: song.id,
+    const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
+
+    try {
+        // check if the song already exists in the playlist
+        const existingDoc = await getDoc(songRefInPlaylist);
+        if (existingDoc.exists()) {
+            setError("Song already exists in the playlist.");
+            setTimeout(() => setError(""), 2000);
+            return;
+        }
+
+        // add the song to the playlist with the same ID
+        await setDoc(songRefInPlaylist, {
             title: song.title,
             artist: song.artist,
             album: song.album,
-            releaseYear: song.releaseYear
-        };
+            releaseYear: song.releaseYear,
+        });
 
-        // add the song to the playlist
-        try {
-            const playlistCollection = collection(db, "playlists", playlistId, "songs");
-            
-            // check if the song already exists in the playlist
-            const playlistSnapshot = await getDocs(playlistCollection);
-            const playlistData = playlistSnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            const songExists = playlistData.some((item) => item.id === songToAdd.id);
-            if (songExists) {
-                setError("Song already exists in the playlist.");
-                setTimeout(() => {
-                    setError("");
-                }, 2000);
-                return;
-            }
-            
-            // add the song to the playlist
-            await addDoc(playlistCollection, songToAdd);
-            setSuccess(true);
-        }
-        catch {
-            setError("Failed to add song to playlist.");
-        }
-        finally {
-            setTimeout(() => {
-                setSuccess(false);
-            }
-            , 2000);
-        }  
-    }; 
+        setSuccess(true);
+    } catch (err) {
+        console.error("Failed to add song:", err);
+        setError("Failed to add song to playlist.");
+    } finally {
+        setTimeout(() => setSuccess(false), 2000);
+    }
+};
 
     return (
         <main className="min-h-screen bg-background flex flex-col items-center px-4">
