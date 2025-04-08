@@ -83,8 +83,7 @@ export default function AddToPlaylist() {
         }
 
     //const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
-    const newSongRef = doc(collection(db, "songs"));
-    const newSongId = newSongRef.id;
+    const newSongRef = doc(db, "playlists", playlistId, "songs", song.id);
 
     try {
         // check if the song already exists in the playlist
@@ -97,12 +96,12 @@ export default function AddToPlaylist() {
 
         // add the song to the playlist with the same ID
         await setDoc(newSongRef, {
-            id: newSongId,
+            id: song.id,
             title: song.title,
             artist: song.artist,
             album: song.album,
             releaseYear: song.releaseYear,
-        });
+          });
 
         setSuccess(true);
     } catch (err) {
