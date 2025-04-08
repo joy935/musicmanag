@@ -17,7 +17,7 @@ This project serves as a learning activity to build a functional web application
 - Playlist management: Create and delete playlist and manage songs 
 - Interfaces: Playlist, songs and filtered songs views
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/Uh848_VzE8w)
 
 ## Cloud Database
 This prohect uses Google Cloud Firestore which is a flexible and scalable NoSQL database to store and sync data in real time.
