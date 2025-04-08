@@ -45,10 +45,14 @@ export default function AddToPlaylist() {
         try {
             const songsCollection = collection(db, "songs");
             const songsSnapshot = await getDocs(songsCollection);
-            const songsData = songsSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data() as Omit<Song, "id">, // use Omit to exclude the id property from the song data
-            }));
+            const songsData: Song[] = songsSnapshot.docs.map((doc) => {
+                const data = doc.data() as Omit<Song, "id">;
+            
+                return {
+                ...data,
+                id: doc.id,
+                };
+            });
             setAllSongs(songsData); // set all songs state
             setFilteredSongs(songsData); // set filtered songs state to all songs
         } catch {
@@ -82,34 +86,34 @@ export default function AddToPlaylist() {
             return;
         }
 
-    //const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
-    const newSongRef = doc(db, "playlists", playlistId, "songs", song.id);
+        //const songRefInPlaylist = doc(db, "playlists", playlistId, "songs", song.id);
+        const newSongRef = doc(db, "playlists", playlistId, "songs", song.id);
 
-    try {
-        // check if the song already exists in the playlist
-        const existingDoc = await getDoc(newSongRef);
-        if (existingDoc.exists()) {
-            setError("Song already exists in the playlist.");
-            setTimeout(() => setError(""), 2000);
-            return;
+        try {
+            // check if the song already exists in the playlist
+            const existingDoc = await getDoc(newSongRef);
+            if (existingDoc.exists()) {
+                setError("Song already exists in the playlist.");
+                setTimeout(() => setError(""), 2000);
+                return;
+            }
+
+            // add the song to the playlist with the same ID
+            await setDoc(newSongRef, {
+                id: song.id,
+                title: song.title,
+                artist: song.artist,
+                album: song.album,
+                releaseYear: song.releaseYear,
+            });
+
+            setSuccess(true);
+        } catch (err) {
+            console.error("Failed to add song:", err);
+            setError("Failed to add song to playlist.");
+        } finally {
+            setTimeout(() => setSuccess(false), 2000);
         }
-
-        // add the song to the playlist with the same ID
-        await setDoc(newSongRef, {
-            id: song.id,
-            title: song.title,
-            artist: song.artist,
-            album: song.album,
-            releaseYear: song.releaseYear,
-          });
-
-        setSuccess(true);
-    } catch (err) {
-        console.error("Failed to add song:", err);
-        setError("Failed to add song to playlist.");
-    } finally {
-        setTimeout(() => setSuccess(false), 2000);
-    }
 };
 
     return (
