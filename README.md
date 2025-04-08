@@ -1,7 +1,7 @@
 # Music Playlist Manager 
 
 ## Overview
-Music Playlist Manager is a simple web application that allows users to create and maange their music playlists. This is a first project using a cloud database, specifically Google Firebase. It explores Cloud Firestore, Firebase Authentication and basic CRUD operations to the database. 
+Music Playlist Manager is a simple web application that allows users to create and manage their music playlists. This is a first project using a cloud database, specifically Google Firebase. It explores Cloud Firestore, Firebase Authentication and basic CRUD operations to the database. 
 
 ### Purpose 
 This project serves as a learning activity to build a functional web application backed by a cloud dababase. By creating this Music Playlist Management web app, users can create an account and log in to be able to create and manage their own playlists. The playlist and song data are stored in Firebase. This application provides a foundation for building more advanced features in the future, such as a music player and the functionality of sharing playlists. 
