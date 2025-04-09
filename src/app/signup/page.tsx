@@ -6,9 +6,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Signup() {
-    // set up states for username, email, password, error, success, and loading
+    // set up states for email, password, error, success, and loading
     // to manage the user information and display messages to the user
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -30,11 +29,9 @@ export default function Signup() {
         // create user with email and password
         createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
+                setSuccess("User created successfully");
                 // redirect to login page
                 router.push("/login");
-            })
-            .then(() => {
-                setSuccess("User created successfully");
             })
             .catch ((err) => { 
                 console.error("Signup error:", err.code, err.message);
@@ -54,10 +51,6 @@ export default function Signup() {
 
                     <div className="space-y-4">
                         <div className="border border-gray-300 rounded-xl px-4 py-3">
-                            <input className="w-full bg-transparent outline-none text-sm" id="username" type="text" name="username" placeholder="Username" required
-                            value={username} onChange={(e) => setUsername(e.target.value)}/>
-                        </div>
-                        <div className="border border-gray-300 rounded-xl px-4 py-3">
                             <input className="w-full bg-transparent outline-none text-sm" id="email" type="email" name="email" placeholder="Email address" required
                             value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
@@ -67,8 +60,6 @@ export default function Signup() {
                         </div>
                         <p className="text-xs text-gray-500 mt-1">Password must be at least 6 characters.</p>
                     </div>
-
-                    <input type="hidden" name="redirectTo" />
 
                     <div className="flex justify-center">
                         <button type="submit" className="w-full px-6 py-3 border border-brown text-black font-medium text-sm rounded-full hover:bg-brown transition duration-200" 

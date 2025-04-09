@@ -1,3 +1,5 @@
+"use client";
+
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -13,9 +15,9 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!
   };
-  
+
   const app = !getApps().length ? initializeApp(firebaseConfig) : getApp(); // initialize Firebase only if there are no apps initialized
   const db = getFirestore(app); // initialize Firestore
   const auth = getAuth(app); // initialize Firebase Authentication
-  
+
   export { db, auth };
