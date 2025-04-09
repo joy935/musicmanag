@@ -92,7 +92,7 @@ export default function MyPlaylists() {
                 {error && <p className="text-red-500">{error}</p>}
                 
                 {/* Display a message if no playlists are found */}
-                {allPlaylists.length === 0 && !loading && <p>No playlists found.</p>}
+                {user && allPlaylists.length === 0 && !loading && <p>No playlists found.</p>}
 
                 {/* Display the playlists */}
                 {!loading && allPlaylists.map((playlist) => (

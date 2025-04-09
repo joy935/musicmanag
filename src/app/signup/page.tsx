@@ -65,6 +65,7 @@ export default function Signup() {
                             <input className="w-full bg-transparent outline-none text-sm" id="password" type="password" name="password" placeholder="Password" minLength={6} required 
                             value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>
+                        <p className="text-xs text-gray-500 mt-1">Password must be at least 6 characters.</p>
                     </div>
 
                     <input type="hidden" name="redirectTo" />
