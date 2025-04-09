@@ -33,9 +33,8 @@ export default function Signup() {
                 // redirect to login page
                 router.push("/login");
             })
-            .catch ((err) => { 
-                console.error("Signup error:", err.code, err.message);
-                setError(err.message);
+            .catch (() => { 
+                setError("Error creating user. Please try again.");
             })
             .finally(() => {
                 setLoading(false);

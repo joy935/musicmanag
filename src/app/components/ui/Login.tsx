@@ -34,13 +34,11 @@ export default function Login() {
         setSuccess("");
         signInWithEmailAndPassword(auth, email, password)
         .then(() => {
+            setSuccess("User logged in successfully");
             router.push(callbackUrl);
         })
-        .then(() => {
-            setSuccess("User logged in successfully");
-        })
-        .catch(() => {
-            setError("Failed to log in. Please check your email and password.");
+        .catch (() => { 
+            setError("Error logging in. Please check your email and password.");
         })
         .finally(() => {
             setLoading(false);
